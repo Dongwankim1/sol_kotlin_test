@@ -14,18 +14,11 @@ import org.bitcoinj.core.Base58
 import java.math.BigInteger
 
 
-class App {
-    val greeting: String
-        get() {
-            return "Hello World!"
-        }
-}
-
 fun main() {
     println("qfqwfqwf")
      val rpcEndpoint = "https://api.devnet.solana.com"
 	 val publicKey = "8ixPw2F1J2g724nkYeZtg4fEFrWTRf2Tna965rbwsVoD"
-	 val mint = "DbXGvzKnCVd1PAPTSjAiVYq9oZJCUhQaqptukzmtVcs1"
+	 val mint = "E3iTukHHrabJ1f3mW8rKRZV6Y4PKMzoLD1HmN8gNGpgt"
 	 val secretKey = "digital drink present man hamster leave orbit scorpion tackle cheese chat cabbage"
     val solanaService = SolanaService()
     
@@ -74,10 +67,13 @@ class SolanaService {
     ): Double {
         println("splTokenBalance")
         val connection = getConnection(rpcEndpoint)
-        println("splTokenBalance2")
+        println("mint = "+mint)
+        println("mint true = "+isValidBase58(mint))
+        
         val mintAddress = PublicKey(mint)
-        println(Base58.decode(secretKey))
-        val secretKeypair = Account(Base58.decode(secretKey))
+        println("mintByteArray = "+mintAddress);
+        // val secretByteArray = Base58.encode(secretKey.toByteArray());
+        val secretKeypair = Account(secretKey.toByteArray())
         println("splTokenBalance2")
         // Select the correct program ID and lamports conversion based on the environment
         return try {
@@ -129,6 +125,7 @@ class SolanaService {
         println("associatedTokenAddress : "+associatedTokenAddress.address)
         // Check if the ATA exists
         val accountInfo = connection.api.getAccountInfo(associatedTokenAddress.address)
+        println("accountInfo = "+accountInfo);
         if (accountInfo != null) {
             // Fetch balance if ATA exists
             val tokenBalance = connection.api.getTokenAccountBalance(associatedTokenAddress.address)
@@ -166,4 +163,10 @@ class SolanaService {
     companion object {
         private const val LAMPORTS_PER_SOL = 1_000_000_000 // 1 SOL = 1 billion lamports
     }
+
+    fun isValidBase58(input: String): Boolean {
+        val base58Pattern = Regex("^[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+\$")
+        return base58Pattern.matches(input)
+    }
+    
 }
