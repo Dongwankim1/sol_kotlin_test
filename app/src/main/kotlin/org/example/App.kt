@@ -21,7 +21,6 @@ fun main() {
 	 val mint = "E3iTukHHrabJ1f3mW8rKRZV6Y4PKMzoLD1HmN8gNGpgt"
 	 val secretKey = "digital drink present man hamster leave orbit scorpion tackle cheese chat cabbage"
     val solanaService = SolanaService()
-    
 
     println(solanaService.getBalance(rpcEndpoint,publicKey))
 
